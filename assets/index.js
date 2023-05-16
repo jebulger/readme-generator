@@ -1,6 +1,10 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
+
 const fs = require('fs');
+
+const markdown = require('./utils/generateMarkdown');
+
 // TODO: Create an array of questions for user input
 // const questions = [
 //     'What is the title of your project?',
@@ -48,7 +52,7 @@ inquirer
             type: 'list',
             name: 'license',
             message: 'Which license would you like to use?',
-            choices: ['MIT', 'Create Without']
+            choices: ['MIT', 'GPLv3', 'Apache', 'AGPLv3', 'Unlicense']
         },
         {
             type: 'input',
@@ -66,8 +70,8 @@ inquirer
             message: 'What is your email address?'
         },
     ])
-    .then((answers) => {
-        const readmeContent = generateMarkdown(answers);
+    .then((data) => {
+        const readmeContent = markdown.generateMarkdown(data);
 
         fs.writeFile('README.md', readmeContent, (error) =>
             error ? console.log(error) : console.log('Successfully created readme.md file')
