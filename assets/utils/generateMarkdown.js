@@ -1,5 +1,4 @@
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
+// Function for generating the license badge url
 function renderLicenseBadge(license) {
   const badgeEndpoint = `https://img.shields.io/badge/license-${license}-`
   
@@ -22,8 +21,7 @@ function renderLicenseBadge(license) {
   return licenseBadge;
 }
 
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
+// Function for generating the link to the full license selected
 function renderLicenseLink(license) {
   let licenseLink = '';
 
@@ -42,21 +40,33 @@ function renderLicenseLink(license) {
   return licenseLink;
 }
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
+// Function to render the license section that will be injected into the readme markdown
 function renderLicenseSection(license) {
-  const licenseSection = `This project is licensed under the terms of
+  const licenseLink = renderLicenseLink(license);
+
+  const licenseSection = `
+  This project is licensed under the terms of
   of the ${license} license.\n
-  Full ${license} license here: ${licenseLink}`
+  Full ${license} license here: ${licenseLink}
+  `;
+
+  return licenseSection;
 }
 
-// TODO: Create a function to generate markdown for README
+// Function to generate the markdown for the readme
+// Calls the licenseBadge and licenseSection functions here
+// and places the badge up top, and the licenseSection into the
+// actual section on the readme for the license
 function generateMarkdown(data) {
+  const licenseBadge = renderLicenseBadge(data.license);
+  const licenseSection = renderLicenseSection(data.license);
+
   return `
   # ${data.title}
 
+  ![](${licenseBadge})\n
+
   ## Description
-  ${licenseBadge}
   ${data.description}
 
   ## Table of Contents
@@ -74,7 +84,7 @@ function generateMarkdown(data) {
   ${data.usage}
 
   ## License
-  ${data.license}
+  ${licenseSection}
 
   ## Contributing
   ${data.contribution}
@@ -89,4 +99,7 @@ function generateMarkdown(data) {
 `;
 }
 
+// Exporting function to generate the markdown
+// So that it can be ran after the user is prompted for info
+// on the index.js file
 module.exports = generateMarkdown;
